@@ -248,7 +248,7 @@ public final class Spif {
         var mappings = Xml.children(old.classification().source, "equivalentClassification").stream()
                 .filter(e -> equivalentId(e).equals(targetId) && Set.of("encrypt", "both").contains(e.getAttribute("applied"))).toList();
         if (mappings.size() != 1) throw new SpiffingException("No unique equivalent classification");
-        var mapping = mappings.getFirst();
+        var mapping = mappings.get(0);
         var label = new Label(site.spif(targetId), Lacv.parse(Xml.required(mapping, "lacv")));
         fixup(mapping, label);
         for (var c : old.categories()) {

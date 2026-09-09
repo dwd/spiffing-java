@@ -44,7 +44,7 @@ final class AsnCodec {
             if (oid == null) fail("Missing policy identifier");
             var policy = site.spif(oid);
             if (!clearance && cls == null) fail("Missing classification");
-            if (clearance && (!(fields.getFirst() instanceof ASN1ObjectIdentifier)
+            if (clearance && (!(fields.get(0) instanceof ASN1ObjectIdentifier)
                     || (bits != null && !(fields.get(1) instanceof ASN1BitString))))
                 fail("Invalid clearance field order");
             List<Lacv> classes = clearance ? (bits == null ? List.of(new Lacv(1)) : bitValues(bits)) : List.of(cls);

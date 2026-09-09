@@ -73,13 +73,13 @@ final class Xml {
     static Element child(Element e, String name) {
         var list = children(e, name);
         if (list.size() != 1) throw new SpiffingException("Expected one " + name);
-        return list.getFirst();
+        return list.get(0);
     }
 
     static Element optional(Element e, String name) {
         var list = children(e, name);
         if (list.size() > 1) throw new SpiffingException("Duplicate " + name);
-        return list.isEmpty() ? null : list.getFirst();
+        return list.isEmpty() ? null : list.get(0);
     }
 
     static String required(Element e, String a) {

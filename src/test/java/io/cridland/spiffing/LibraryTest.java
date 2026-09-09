@@ -128,6 +128,34 @@ class LibraryTest {
     }
 
     @Test
+    void equallyNamedPermissiveTagsRequireSeparatePrivileges() {
+        String tagSets = """
+                <securityCategoryTagSets>
+                  <securityCategoryTagSet name="First" id="1.2.3.1">
+                    <securityCategoryTag name="Release" tagType="permissive">
+                      <tagCategory name="A" lacv="1"/>
+                    </securityCategoryTag>
+                  </securityCategoryTagSet>
+                  <securityCategoryTagSet name="Second" id="1.2.3.2">
+                    <securityCategoryTag name="Release" tagType="permissive">
+                      <tagCategory name="A" lacv="1"/>
+                    </securityCategoryTag>
+                  </securityCategoryTagSet>
+                </securityCategoryTagSets>
+                """;
+        var policy = new Spif(SIMPLE.replace("</SPIF>", tagSets + "</SPIF>"));
+        var first = policy.tagSetLookup("1.2.3.1").categoryLookup(TagType.permissive, 1);
+        var second = policy.tagSetLookup("1.2.3.2").categoryLookup(TagType.permissive, 1);
+        var label = new Label(policy, 1).addCategory(first).addCategory(second);
+        var clearance = new Clearance(policy).addClassification(1).addCategory(first);
+
+        assertFalse(policy.acdf(label, clearance));
+        assertFalse(policy.acdf(label, new Clearance(policy).addClassification(1).addCategory(second)));
+        clearance.addCategory(second);
+        assertTrue(policy.acdf(label, clearance));
+    }
+
+    @Test
     void registryIsolationAndUnmodifiableViews() {
         var a = withTags();
         var b = withTags();

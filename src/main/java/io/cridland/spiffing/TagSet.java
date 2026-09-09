@@ -42,6 +42,6 @@ public final class TagSet {
     public Category categoryLookup(TagType type, String name) {
         var matches = tags.stream().filter(t -> t.type().normalized() == type.normalized()).flatMap(t -> t.categories.stream()).filter(c -> c.name().equals(name)).toList();
         if (matches.size() != 1) throw new SpiffingException("Unknown or ambiguous category name: " + name);
-        return matches.getFirst();
+        return matches.get(0);
     }
 }

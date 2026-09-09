@@ -4,7 +4,7 @@ A Java port of the C++ [Spiffing](https://github.com/surevine/spiffing) library 
 
 It loads Open XML SPIF policies, generates display markings, validates labels, makes access decisions, and translates labels between equivalent policies.
 
-Requires Java 22 or later and Maven 3.9 or later. Bouncy Castle supplies the ASN.1 implementation; no native libraries are needed.
+Requires Java 17 or later and Maven 3.9 or later. Bouncy Castle supplies the ASN.1 implementation; no native libraries are needed.
 
 ```sh
 mvn verify
@@ -85,3 +85,5 @@ The Java port deliberately rejects malformed XML, external entities, duplicate/a
 As in the original, ESS privacy marks are not retained, MISSI local RBAC is unsupported, and equivalence translation exposes the encryption direction only. SPIF metadata such as `obsolete` and `singleSelection` does not add validation rules beyond the C++ implementation. NATO timestamps and other metadata outside confidentiality information are not retained. Serialization preserves the policy/classification/category model, not the original document bytes.
 
 The copied `food-policy.xml` and `food-policy-missi.xml` fixtures correct the original `securityCategiryTagSet` closing-tag typo. The incomplete upstream `bsi-commercial.xml` is retained as reference data and is not a valid policy. See [LICENSE](LICENSE) for the original MIT copyright and permission notice.
+
+Implementation decisions, test coverage, and limitations are maintained in [doc/design.md](doc/design.md). Repository working instructions are in [AGENTS.md](AGENTS.md).

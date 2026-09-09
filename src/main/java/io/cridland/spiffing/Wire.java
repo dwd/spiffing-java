@@ -14,7 +14,7 @@ final class Wire {
     static Label parseLabel(byte[] data, Format format, Site site) {
         Value v = parse(data, format, site, false);
         if (v.classes.size() != 1) throw new SpiffingException("Label requires one classification");
-        var label = new Label(v.policy, v.classes.getFirst());
+        var label = new Label(v.policy, v.classes.get(0));
         v.categories.forEach(label::addCategory);
         return label;
     }
@@ -60,7 +60,7 @@ final class Wire {
     private static Element one(Element e, String name, String ns) {
         var matches = Xml.children(e, name, ns);
         if (matches.size() != 1) throw new SpiffingException("Expected one " + name);
-        return matches.getFirst();
+        return matches.get(0);
     }
 
     private static Value nato(Element root, Site site, boolean clearance) {
